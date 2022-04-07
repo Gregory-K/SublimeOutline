@@ -3,6 +3,7 @@
     "caption": "Browse Mode: Outline (Right)",
     "command": "outline",
     "args": {
+      "toggle": true,
       "immediate": true,
       "other_group": "right",
       "single_pane": true,
@@ -14,6 +15,7 @@
     "caption": "Browse Mode: Outline (Left)",
     "command": "outline",
     "args": {
+      "toggle": true,
       "immediate": true,
       "other_group": "right",
       "single_pane": true,
@@ -25,6 +27,7 @@
     "caption": "Browse Mode: FileBrowser Left, Outline Right",
     "command": "outline",
     "args": {
+      "toggle": true,
       "immediate": true,
       "other_group": "right",
       "single_pane": true,
@@ -36,6 +39,7 @@
     "caption": "Browse Mode: FileBrowser Top Left, Outline Bottom Left",
     "command": "outline",
     "args": {
+      "toggle": true,
       "immediate": true,
       "other_group": "right",
       "single_pane": true,
@@ -47,6 +51,7 @@
     "caption": "Browse Mode: FileBrowser Top Right, Outline Bottom Right",
     "command": "outline",
     "args": {
+      "toggle": true,
       "immediate": true,
       "other_group": "right",
       "single_pane": true,
