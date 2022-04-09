@@ -58,10 +58,6 @@
   // "block": highlight the entire block between the current symbol and next symbol
   "outline_main_view_highlight_mode": "symbol",
 
-  // true: outline view will use the same color scheme as current file
-  // false: outline will use its own color schemes (default or dark)
-  "outline_inherit_color_scheme": true,
-
   // How should be positioned the Browse Mode view opened when jumping
   // "left": the default, open the view on the left
   // "right": open the view on the right
@@ -84,11 +80,19 @@
   // appropriate repository https://github.com/guillermooo/Vintageous/issues
   "__vi_external_disable": true,
 
+  // true: outline view will use the same color scheme as current file
+  // false: outline will use its own color schemes (default or dark)
+  "outline_inherit_color_scheme": true,
+
   // The rest of these settings are normal sublime settings to
   // make FileBrowser views look more like a file browser than an editor
   // This plugin does not change font and font size, but it's
   // highly recommended to customize them in your user files.
+  // If "outline_inherit_color_scheme" set to false,
+  // use Outline's theme bellow
   "color_scheme": "Packages/Outline/outline.hidden-tmTheme",
+  // or point to a custom one
+  // "color_scheme": "Packages/User/<theme-name>.hidden-tmTheme",
   "line_numbers": false,
   "word_wrap": false,
   "spell_check": false,
@@ -97,10 +101,10 @@
   "fold_buttons": false,
   "drag_text": false,
   "highlight_line": true,
-  "margin": 0,
+  "margin": 0, // minus values for tighter/smaller sidebar pane, e.g. -10 (fold_buttons: false)
   "tab_size": 3,
   "rulers": [],
-  "caret_extra_width": 0 // extra caret width causes partially hidden chars
-  // "font_face": "comic sans",
-  // "font_size": 13,
+  "caret_extra_width": 0, // extra caret width causes partially hidden chars
+  // "font_face": "Ubuntu Mono", // maybe a smaller more condensed font than main view's
+  // "font_size": 10
 }
