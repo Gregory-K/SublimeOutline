@@ -71,9 +71,9 @@ def calc_width(view):
             width = 0.9
     else:
         sublime.error_message(
-            'FileBrowser:\n\noutline_width set to '
-            'unacceptable type "%s", please change it.\n\n'
-            'Fallback to default 0.3 for now.' % type(width)
+            f'FileBrowser:\n\noutline_width set to '
+            f'unacceptable type "{type(width)}", please change it.\n\n'
+            f'Fallback to default 0.3 for now.'
         )
         width = 0.3
     return width or 0.1  # avoid 0.0
@@ -302,7 +302,7 @@ class outlineBaseCommand:
 
             if mark not in (True, False):
                 newmark = mark(filename in marked, filename)
-                assert newmark in (True, False), 'Invalid mark: {0}'.format(newmark)
+                assert newmark in (True, False), f'Invalid mark: {newmark}'
             else:
                 newmark = mark
 
@@ -337,9 +337,9 @@ class outlineBaseCommand:
         start = region.begin()
         self.view.erase(edit, region)
         if header:
-            new_text = "——[RENAME MODE]——" + "—" * (region.size() - 17)
+            new_text = '——[RENAME MODE]——' + '—' * (region.size() - 17)
         else:
-            new_text = "⠤ [RENAME MODE]"
+            new_text = '⠤ [RENAME MODE]'
         self.view.insert(edit, start, new_text)
 
     def set_status(self):
@@ -351,11 +351,11 @@ class outlineBaseCommand:
         settings = self.view.settings()
         copied_items = settings.get('outline_to_copy', [])
         cut_items = settings.get('outline_to_move', [])
-        status = " 𝌆 [?: Help] {0}Hidden: {1}{2}{3}".format(
-            'Project root, ' if path_in_project else '',
-            'On' if self.show_hidden else 'Off',
-            ', copied(%d)' % len(copied_items) if copied_items else '',
-            ', cut(%d)' % len(cut_items) if cut_items else ''
+        status = (
+            f' 𝌆 [?: Help] {"Project root, " if path_in_project else ""}'
+            f'Hidden: {"On" if self.show_hidden else "Off"}'
+            f', copied({len(copied_items) if copied_items else ""})'
+            f', cut({len(cut_items) if cut_items else ""})'
         )
         self.view.set_status("__FileBrowser__", status)
 
@@ -378,11 +378,11 @@ class outlineBaseCommand:
         for name in names:
             full_name = join(path, goto, name)
             if isdir(full_name):
-                index_dirs.append('%s%s' % (full_name, os.sep))
-                items.append(''.join([level, "▸ ", name, os.sep]))
+                index_dirs.append(f'{full_name}{os.sep}')
+                items.append(''.join([level, '▸ ', name, os.sep]))
             else:
                 index_files.append(full_name)
-                files.append(''.join([level, "≡ ", name]))
+                files.append(''.join([level, '≡ ', name]))
         index = index_dirs + index_files
         self.index = self.index[:self.number_line] + index + self.index[self.number_line:]
         items += files
@@ -492,7 +492,7 @@ class outlineBaseCommand:
         else:
             pattern = r'^\s*≡ '
             sep = ''
-        return self.view.find_all('%s%s%s' % (pattern, fname, sep))
+        return self.view.find_all(f'{pattern}{fname}{sep}')
 
     def _add_sels(self, sels=None):
         self.view.sel().clear()

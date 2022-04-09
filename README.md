@@ -5,7 +5,7 @@ This a **fork of [SublimeOutline](https://github.com/warmdev/SublimeOutline)**: 
 Current '[**dev**](https://github.com/Gregory-K/SublimeOutline)' branch is just a personal sandbox. Nothing special, just playing around with:  
 - a toggle argument for the 'outline' command
   _(use the same keybinding, keyboard shortcut, to open/close the Outline side-pane)_,
-- and maybe, a python 3.8 only version
+- ~~and maybe~~, a python 3.8 only version
   _(Sublime Text 4)_.
 
 
@@ -17,7 +17,8 @@ for whomsoever wants to try it
 
 Remove "Outline" with "Package Control", if previously installed.
 
-[Manual installation](#Manual-installation) (official README bellow) applies also for the current repository.
+[Manual installation](#Manual-installation) (official README bellow) applies also for the current repository.  
+_Download the corresponding 'dev' branch tag for ST2 and ST3 ([Notes](#Notes))_
 
 Add to `Packages\User\Package Control.sublime-settings`,
 
@@ -46,6 +47,10 @@ Disable the "toggle" functionality of this shortcut by setting `"toggle"` to `fa
 
 ~~Not~~ Somewhat tested with [FileBrowser](https://github.com/aziz/SublimeFileBrowser) ~~yet~~.  
 Seems to work. An `AttributeError` error when opening 'Outline' & 'FileBrowser' was fixed (?).
+
+'**dev**' branch Tags:    
+'[**last_ST3**](https://github.com/Gregory-K/SublimeOutline/releases/tag/last_ST3)' : last commit before removing support for python 3.3 / ST3   
+'[**last_ST2**](https://github.com/Gregory-K/SublimeOutline/releases/tag/last_ST2)' : last commit before removing support for python 2.6 / ST2
 
 Other Branches:  
 '[**master**](https://github.com/Gregory-K/SublimeOutline/tree/master)' : the official repo code base.  

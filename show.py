@@ -1,5 +1,5 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+#
 
 import os
 import sublime
@@ -85,7 +85,7 @@ def show(window, view_id=None, ignore_existing=False, single_pane=False, other_g
 
     view_name = "Outline"
 
-    name = "𝌆 {0}".format(view_name)
+    name = f'𝌆 {view_name}'
 
     view.set_name(name)
     view.settings().set('outline_rename_mode', False)
