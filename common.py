@@ -46,6 +46,7 @@ def print(*args, **kwargs):
         Redefining/tweaking built-in things is relatively safe; of course, when
         ST2 will become irrelevant, this def might be removed undoubtedly.
     """
+    # ~ unicode, keep ST2 or not
     if not (ST3 or NT):
         args = (s.encode('utf-8') if isinstance(s, unicode) else str(s) for s in args)
     else:
@@ -82,16 +83,19 @@ def calc_width(view):
     '''
     width = view.settings().get('outline_width', 0.3)
     if isinstance(width, float):
-        width -= width//1  # must be less than 1
+        width -= width // 1  # must be less than 1
+    # ~ long, keep ST2 or not
     elif isinstance(width, int if ST3 else long):  # assume it is pixels
         wport = view.viewport_extent()[0]
         width = 1 - round((wport - width) / wport, 2)
         if width >= 1:
             width = 0.9
     else:
-        sublime.error_message(u'FileBrowser:\n\noutline_width set to '
-                              u'unacceptable type "%s", please change it.\n\n'
-                              u'Fallback to default 0.3 for now.' % type(width))
+        sublime.error_message(
+            u'FileBrowser:\n\noutline_width set to '
+            u'unacceptable type "%s", please change it.\n\n'
+            u'Fallback to default 0.3 for now.' % type(width)
+        )
         width = 0.3
     return width or 0.1  # avoid 0.0
 
@@ -211,7 +215,7 @@ class outlineBaseCommand:
         if 'indent' in scope:
             name_point = self.view.extract_scope(line.a).b
         else:
-            name_point = line.a + (2 if not 'parent_dir' in scope else 0)
+            name_point = line.a + (2 if 'parent_dir' not in scope else 0)
         return name_point
 
     def show_parent(self):
@@ -225,8 +229,10 @@ class outlineBaseCommand:
         if with_parent_link:
             all_items = sorted(self.view.find_by_selector('outline.item'))
         else:
-            all_items = sorted(self.view.find_by_selector('outline.item.directory') +
-                               self.view.find_by_selector('outline.item.file'))
+            all_items = sorted(
+                self.view.find_by_selector('outline.item.directory') +
+                self.view.find_by_selector('outline.item.file')
+            )
         if not all_items:
             return None
         return Region(all_items[0].a, all_items[~0].b)
@@ -252,8 +258,9 @@ class outlineBaseCommand:
         """
         index = self.view.settings().get('outline_index', [])
         if not index:
-            return sublime.error_message(u'FileBrowser:\n\n"outline_index" is empty,\n'
-                                         u'that shouldn’t happen ever, there is some bug.')
+            return sublime.error_message(
+                u'FileBrowser:\n\n"outline_index" is empty,\n'
+                u'that shouldn’t happen ever, there is some bug.')
         return index
 
     def get_all_relative(self, path):
@@ -351,7 +358,7 @@ class outlineBaseCommand:
         start = region.begin()
         self.view.erase(edit, region)
         if header:
-            new_text = u"——[RENAME MODE]——" + u"—"*(region.size()-17)
+            new_text = u"——[RENAME MODE]——" + u"—" * (region.size() - 17)
         else:
             new_text = u"⠤ [RENAME MODE]"
         self.view.insert(edit, start, new_text)
@@ -360,11 +367,11 @@ class outlineBaseCommand:
         '''Update status-bar;
         self.show_hidden must be assigned before call it'''
         # if view isnot focused, view.window() may be None
-        window          = self.view.window() or sublime.active_window()
+        window = self.view.window() or sublime.active_window()
         path_in_project = any(folder == self.path[:-1] for folder in window.folders())
-        settings        = self.view.settings()
-        copied_items    = settings.get('outline_to_copy', [])
-        cut_items       = settings.get('outline_to_move', [])
+        settings = self.view.settings()
+        copied_items = settings.get('outline_to_copy', [])
+        cut_items = settings.get('outline_to_move', [])
         status = u" 𝌆 [?: Help] {0}Hidden: {1}{2}{3}".format(
             'Project root, ' if path_in_project else '',
             'On' if self.show_hidden else 'Off',
@@ -375,17 +382,19 @@ class outlineBaseCommand:
 
     def prepare_filelist(self, names, path, goto, indent):
         '''About self.index see outlineRefreshCommand
-        could be called from  outlineExpand.expand_single_folder
-                     or from  outlineRefresh.continue_refresh
+        could be called
+        from outlineExpand.expand_single_folder
+        or from outlineRefresh.continue_refresh
         '''
-        items   = []
-        tab     = self.view.settings().get('tab_size')
-        line    = self.view.line(self.sel.a if self.sel is not None else self.view.sel()[0].a)
-        content = self.view.substr(line).replace('\t', ' '*tab)
-        ind     = re.compile('^(\s*)').match(content).group(1)
-        level   = indent * int((len(ind) / tab) + 1) if ind else indent
-        files   = []
-        index_dirs  = []
+        items = []
+        tab = self.view.settings().get('tab_size')
+        line = self.view.line(self.sel.a if self.sel is not None else self.view.sel()[0].a)
+        content = self.view.substr(line).replace('\t', ' ' * tab)
+        # ~ plain '' or r''
+        ind = re.compile(r'^(\s*)').match(content).group(1)
+        level = indent * int((len(ind) / tab) + 1) if ind else indent
+        files = []
+        index_dirs = []
         index_files = []
         for name in names:
             full_name = join(path, goto, name)
@@ -501,6 +510,7 @@ class outlineBaseCommand:
         '''item is Unicode'''
         fname = re.escape(basename(os.path.abspath(item)) or item.rstrip(os.sep))
         if item[~0] == os.sep:
+            # ~ u'' or r''
             pattern = u'^\s*[▸▾] '
             sep = re.escape(os.sep)
         else:
@@ -518,9 +528,11 @@ class outlineBaseCommand:
                     self.view.sel().add(s)
 
         if not sels or not list(self.view.sel()):  # all sels more than eof
-            item = (self.view.find_by_selector('text.outline outline.item.parent_dir ') or
-                    self.view.find_by_selector('text.outline outline.item.directory string.name.directory.outline ') or
-                    self.view.find_by_selector('text.outline outline.item.file string.name.file.outline '))
+            item = (
+                self.view.find_by_selector('text.outline outline.item.parent_dir ') or
+                self.view.find_by_selector('text.outline outline.item.directory string.name.directory.outline ') or
+                self.view.find_by_selector('text.outline outline.item.file string.name.file.outline ')
+            )
             s = Region(item[0].a, item[0].a) if item else Region(0, 0)
             self.view.sel().add(s)
 

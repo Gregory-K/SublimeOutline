@@ -20,7 +20,7 @@ def set_active_group(window, view, other_group):
         groups = window.num_groups()
         if groups == 1:
             width = calc_width(view)
-            cols = [0.0, width, 1.0] if other_group == 'left' else [0.0, 1-width, 1.0]
+            cols = [0.0, width, 1.0] if other_group == 'left' else [0.0, 1 - width, 1.0]
             window.set_layout({"cols": cols, "rows": [0.0, 1.0], "cells": [[0, 0, 1, 1], [1, 0, 2, 1]]})
         elif view:
             group = get_group(groups, nag)
@@ -58,7 +58,7 @@ def set_view(view_id, window, ignore_existing, single_pane):
             view.settings().set('color_scheme', active_view.settings().get('color_scheme'))
         else:
             view.settings().add_on_change('color_scheme', lambda: set_proper_scheme(view))
-        
+
         reset_sels = True
     else:
         reset_sels = path != view.settings().get('outline_path', '')
@@ -105,15 +105,25 @@ def show(window, view_id=None, ignore_existing=False, single_pane=False, other_g
 
     width = calc_width(view)
     if layout == 0:
-        window.set_layout({"cols": [0.0, width, 1-width, 1.0], "rows": [0.0, 0.5, 1.0], "cells": [[2, 0, 3, 2], [0, 0, 2, 2]]})
+        window.set_layout(
+            {"cols": [0.0, width, 1 - width, 1.0], "rows": [0.0, 0.5, 1.0], "cells": [[2, 0, 3, 2], [0, 0, 2, 2]]}
+        )
     elif layout == 1:
-        window.set_layout({"cols": [0.0, width, 1-width, 1.0], "rows": [0.0, 0.5, 1.0], "cells": [[0, 0, 1, 2], [1, 0, 3, 2]]})
+        window.set_layout(
+            {"cols": [0.0, width, 1 - width, 1.0], "rows": [0.0, 0.5, 1.0], "cells": [[0, 0, 1, 2], [1, 0, 3, 2]]}
+        )
     elif layout == 2:
-        window.set_layout({"cols": [0.0, width, 1-width, 1.0], "rows": [0.0, 0.5, 1.0], "cells": [[2, 0, 3, 2], [1, 0, 2, 2], [0, 0, 1, 2]]})
+        window.set_layout(
+            {"cols": [0.0, width, 1 - width, 1.0], "rows": [0.0, 0.5, 1.0], "cells": [[2, 0, 3, 2], [1, 0, 2, 2], [0, 0, 1, 2]]}
+        )
     elif layout == 3:
-        window.set_layout({"cols": [0.0, width, 1-width, 1.0], "rows": [0.0, 0.5, 1.0], "cells": [[0, 1, 1, 2], [1, 0, 3, 2], [0, 0, 1, 1]]})
+        window.set_layout(
+            {"cols": [0.0, width, 1 - width, 1.0], "rows": [0.0, 0.5, 1.0], "cells": [[0, 1, 1, 2], [1, 0, 3, 2], [0, 0, 1, 1]]}
+        )
     elif layout == 4:
-        window.set_layout({"cols": [0.0, width, 1-width, 1.0], "rows": [0.0, 0.5, 1.0], "cells": [[2, 1, 3, 2], [0, 0, 2, 2], [2, 0, 3, 1]]})
+        window.set_layout(
+            {"cols": [0.0, width, 1 - width, 1.0], "rows": [0.0, 0.5, 1.0], "cells": [[2, 1, 3, 2], [0, 0, 2, 2], [2, 0, 3, 1]]}
+        )
 
     window.set_view_index(view, 0, 0)
 
@@ -124,16 +134,18 @@ def show(window, view_id=None, ignore_existing=False, single_pane=False, other_g
             window.set_view_index(v, 1, 0)
 
     window.focus_view(prev_focus)
-    
+
     refresh_sym_view(view, symlist, file_path)
+
 
 def refresh_sym_view(sym_view, symlist, path):
     l = [symbol for range, symbol in symlist]
     k = [(range.a, range.b) for range, symbol in symlist]
-    if sym_view != None:
+    if sym_view is not None:
         sym_view.settings().erase('symlist')
         sym_view.settings().erase('symkeys')
         sym_view.run_command('outline_refresh', {'symlist': l, 'symkeys': k, 'path': path})
+
 
 def get_sidebar_views_groups(view):
     window = view.window()
@@ -148,10 +160,11 @@ def get_sidebar_views_groups(view):
             sym_group, i = window.get_view_index(sym_view)
         if u'𝌆' in v.name() and v.id() != sym_view.id():
             fb_view = v
-            if fb_view != None:
+            if fb_view is not None:
                 fb_group, j = window.get_view_index(fb_view)
 
     return (sym_view, sym_group, fb_view, fb_group)
+
 
 def get_sidebar_status(view):
     sidebar_on = False
@@ -160,6 +173,7 @@ def get_sidebar_status(view):
             sidebar_on = True
 
     return sidebar_on
+
 
 # given a sorted array, returns the location of x if inserted into the array
 def binary_search(array, x):
