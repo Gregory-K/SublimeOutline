@@ -4,14 +4,17 @@ from sublime_plugin import WindowCommand, TextCommand, EventListener
 from .show import show, refresh_sym_view, get_sidebar_views_groups, get_sidebar_status, binary_search
 
 class OutlineCommand(WindowCommand):
-	outline_pane = True
+	def __init__(self, window):
+		self.window = window
+		self.is_outline_open = True if any('𝌆' in v.name() for v in self.window.views()) else False
 	def run(self, toggle=False, immediate=False, single_pane=False, project=False, other_group=False, layout=0):
 		if toggle is True:
-			if self.outline_pane is True:
+			if self.is_outline_open is False:
 				show(self.window, single_pane=single_pane, other_group=other_group, layout=layout)
 			else:
 				self.window.run_command("outline_close_sidebar")
-			self.outline_pane = not self.outline_pane
+				# OutlineCloseSidebarCommand.run(self)  # same with the above
+			self.is_outline_open = not self.is_outline_open
 		else:
 			show(self.window, single_pane=single_pane, other_group=other_group, layout=layout)
 
