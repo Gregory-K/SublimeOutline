@@ -39,12 +39,13 @@ for example `alt + a` and outline pane on the left:
 { "keys": ["alt+a"], "command": "outline", "args": {"toggle": true,"immediate": true,"other_group": "right","single_pane": true,"project": true,"layout": 1} }
 ```
 
-Disable toggle nature of the shortcut by setting `"toggle"` to `false`.
+Disable the "toggle" functionality of this shortcut by setting `"toggle"` to `false`.
 
 
 ## Notes
 
-Not tested with [FileBrowser](https://github.com/aziz/SublimeFileBrowser) yet.
+~~Not~~ Somewhat tested with [FileBrowser](https://github.com/aziz/SublimeFileBrowser) ~~yet~~.  
+Seems to work. An `AttributeError` error when opening 'Outline' & 'FileBrowser' was fixed (?).
 
 Other Branches:  
 '[**master**](https://github.com/Gregory-K/SublimeOutline/tree/master)' : the official repo code base.  
