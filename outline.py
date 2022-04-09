@@ -26,7 +26,7 @@ class OutlineCloseSidebarCommand(WindowCommand):
         active_view = self.window.active_view()
 
         for v in self.window.views():
-            if u'𝌆' in v.name():
+            if '𝌆' in v.name():
                 self.window.focus_view(v)
                 self.window.run_command('close_file')
 
@@ -50,7 +50,7 @@ class OutlineToggleSortCommand(TextCommand):
     def run(self, edit):
         sym_view = None
         for v in self.view.window().views():
-            if u'𝌆' in v.name():
+            if '𝌆' in v.name():
                 v.settings().set('outline_alphabetical', not v.settings().get('outline_alphabetical'))
                 sym_view = v
 
@@ -103,7 +103,7 @@ class OutlineEventHandler(EventListener):
             window.focus_view(active_view)
 
     def on_activated(self, view):
-        if u'𝌆' in view.name():
+        if '𝌆' in view.name():
             return
         # Avoid error message when console opens, as console is also a view, albeit with a group index of -1
         if view.window().get_view_index(view)[0] == -1:
@@ -125,7 +125,7 @@ class OutlineEventHandler(EventListener):
         refresh_sym_view(sym_view, symlist, view.file_name())
 
     def on_pre_save(self, view):
-        if u'𝌆' in view.name():
+        if '𝌆' in view.name():
             return
         # this is not absolutely necessary, and prevents views that do not have a file reference from displaying
         # the symbol list

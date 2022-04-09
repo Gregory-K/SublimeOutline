@@ -4,13 +4,7 @@
 import os
 import sublime
 from os.path import basename
-
-ST3 = int(sublime.version()) >= 3000
-
-if ST3:
-    from .common import first, set_proper_scheme, calc_width, get_group
-else:
-    from common import first, set_proper_scheme, calc_width, get_group
+from .common import first, set_proper_scheme, calc_width, get_group
 
 
 def set_active_group(window, view, other_group):
@@ -91,10 +85,7 @@ def show(window, view_id=None, ignore_existing=False, single_pane=False, other_g
 
     view_name = "Outline"
 
-    if ST3:
-        name = u"𝌆 {0}".format(view_name)
-    else:
-        name = u"■ {0}".format(view_name)
+    name = "𝌆 {0}".format(view_name)
 
     view.set_name(name)
     view.settings().set('outline_rename_mode', False)
@@ -128,7 +119,7 @@ def show(window, view_id=None, ignore_existing=False, single_pane=False, other_g
     window.set_view_index(view, 0, 0)
 
     for v in reversed(window.views_in_group(0)[1:]):
-        if layout >= 2 and u"𝌆" in v.name():
+        if layout >= 2 and '𝌆' in v.name():
             window.set_view_index(v, 2, 0)
         else:
             window.set_view_index(v, 1, 0)
@@ -159,7 +150,7 @@ def get_sidebar_views_groups(view):
             sym_view = v
             sym_group, i = window.get_view_index(sym_view)
         if hasattr(sym_view, 'id'):
-            if u'𝌆' in v.name() and v.id() != sym_view.id():
+            if '𝌆' in v.name() and v.id() != sym_view.id():
                 fb_view = v
                 if fb_view is not None:
                     fb_group, j = window.get_view_index(fb_view)
@@ -170,7 +161,7 @@ def get_sidebar_views_groups(view):
 def get_sidebar_status(view):
     sidebar_on = False
     for v in view.window().views():
-        if u'𝌆' in v.name():
+        if '𝌆' in v.name():
             sidebar_on = True
 
     return sidebar_on

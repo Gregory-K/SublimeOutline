@@ -2,7 +2,6 @@
 
 '''Common stuff, used in other modules'''
 
-from __future__ import print_function
 import re, os, fnmatch, sys, itertools
 import sublime
 from sublime import Region
@@ -11,19 +10,15 @@ from os.path import isdir, join, basename
 if sublime.platform() == 'windows':
     import ctypes
 
-ST3 = int(sublime.version()) >= 3000
 
-if ST3:
-    MARK_OPTIONS = sublime.DRAW_NO_OUTLINE
-else:
-    MARK_OPTIONS = 0
+MARK_OPTIONS = sublime.DRAW_NO_OUTLINE
 
 OS = sublime.platform()
 NT = OS == 'windows'
 LIN = OS == 'linux'
 OSX = OS == 'osx'
 RE_FILE = re.compile(r'^(\s*)([^\\//].*)$')
-PARENT_SYM = u"⠤"
+PARENT_SYM = '⠤'
 
 
 def first(seq, pred):
@@ -38,21 +33,6 @@ def sort_nicely(names):
     convert = lambda text: int(text) if text.isdigit() else text.lower()
     alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
     names.sort(key=alphanum_key)
-
-
-def print(*args, **kwargs):
-    """ Redefine print() function; the reason is the inconsistent treatment of
-        unicode literals among Python versions used in ST2.
-        Redefining/tweaking built-in things is relatively safe; of course, when
-        ST2 will become irrelevant, this def might be removed undoubtedly.
-    """
-    # ~ unicode, keep ST2 or not
-    if not (ST3 or NT):
-        args = (s.encode('utf-8') if isinstance(s, unicode) else str(s) for s in args)
-    else:
-        args = (s if isinstance(s, str if ST3 else unicode) else str(s) for s in args)
-    sep, end = kwargs.get('sep', ' '), kwargs.get('end', '\n')
-    sys.stdout.write(sep.join(s for s in args) + end)
 
 
 def set_proper_scheme(view):
@@ -84,17 +64,16 @@ def calc_width(view):
     width = view.settings().get('outline_width', 0.3)
     if isinstance(width, float):
         width -= width // 1  # must be less than 1
-    # ~ long, keep ST2 or not
-    elif isinstance(width, int if ST3 else long):  # assume it is pixels
+    elif isinstance(width, int):  # assume it is pixels
         wport = view.viewport_extent()[0]
         width = 1 - round((wport - width) / wport, 2)
         if width >= 1:
             width = 0.9
     else:
         sublime.error_message(
-            u'FileBrowser:\n\noutline_width set to '
-            u'unacceptable type "%s", please change it.\n\n'
-            u'Fallback to default 0.3 for now.' % type(width)
+            'FileBrowser:\n\noutline_width set to '
+            'unacceptable type "%s", please change it.\n\n'
+            'Fallback to default 0.3 for now.' % type(width)
         )
         width = 0.3
     return width or 0.1  # avoid 0.0
@@ -116,7 +95,7 @@ def get_group(groups, nag):
 
 
 def relative_path(rpath):
-    u'''rpath is either list or empty string (if list, we need only first item);
+    '''rpath is either list or empty string (if list, we need only first item);
     return either empty string or rpath[0] (or its parent), e.g.
         foo/bar/ → foo/bar/
         foo/bar  → foo/
@@ -132,7 +111,7 @@ def relative_path(rpath):
 
 def hijack_window():
     '''Execute on loading plugin or on new window open;
-    allow to open FB automatically in ST3
+    allow to open FB automatically in ST3+
     '''
     settings = sublime.load_settings('outline.sublime-settings')
     command = settings.get("outline_hijack_new_window")
@@ -238,7 +217,7 @@ class outlineBaseCommand:
         return Region(all_items[0].a, all_items[~0].b)
 
     def get_parent(self, line, path):
-        u'''
+        '''
         Returns relative path for line
             • line is a region
             • path is self.path
@@ -259,8 +238,8 @@ class outlineBaseCommand:
         index = self.view.settings().get('outline_index', [])
         if not index:
             return sublime.error_message(
-                u'FileBrowser:\n\n"outline_index" is empty,\n'
-                u'that shouldn’t happen ever, there is some bug.')
+                'FileBrowser:\n\n"outline_index" is empty,\n'
+                'that shouldn’t happen ever, there is some bug.')
         return index
 
     def get_all_relative(self, path):
@@ -323,7 +302,7 @@ class outlineBaseCommand:
 
             if mark not in (True, False):
                 newmark = mark(filename in marked, filename)
-                assert newmark in (True, False), u'Invalid mark: {0}'.format(newmark)
+                assert newmark in (True, False), 'Invalid mark: {0}'.format(newmark)
             else:
                 newmark = mark
 
@@ -358,9 +337,9 @@ class outlineBaseCommand:
         start = region.begin()
         self.view.erase(edit, region)
         if header:
-            new_text = u"——[RENAME MODE]——" + u"—" * (region.size() - 17)
+            new_text = "——[RENAME MODE]——" + "—" * (region.size() - 17)
         else:
-            new_text = u"⠤ [RENAME MODE]"
+            new_text = "⠤ [RENAME MODE]"
         self.view.insert(edit, start, new_text)
 
     def set_status(self):
@@ -372,7 +351,7 @@ class outlineBaseCommand:
         settings = self.view.settings()
         copied_items = settings.get('outline_to_copy', [])
         cut_items = settings.get('outline_to_move', [])
-        status = u" 𝌆 [?: Help] {0}Hidden: {1}{2}{3}".format(
+        status = " 𝌆 [?: Help] {0}Hidden: {1}{2}{3}".format(
             'Project root, ' if path_in_project else '',
             'On' if self.show_hidden else 'Off',
             ', copied(%d)' % len(copied_items) if copied_items else '',
@@ -399,11 +378,11 @@ class outlineBaseCommand:
         for name in names:
             full_name = join(path, goto, name)
             if isdir(full_name):
-                index_dirs.append(u'%s%s' % (full_name, os.sep))
-                items.append(''.join([level, u"▸ ", name, os.sep]))
+                index_dirs.append('%s%s' % (full_name, os.sep))
+                items.append(''.join([level, "▸ ", name, os.sep]))
             else:
                 index_files.append(full_name)
-                files.append(''.join([level, u"≡ ", name]))
+                files.append(''.join([level, "≡ ", name]))
         index = index_dirs + index_files
         self.index = self.index[:self.number_line] + index + self.index[self.number_line:]
         items += files
@@ -443,8 +422,6 @@ class outlineBaseCommand:
             error = str(e)
             if NT:
                 error = error.split(':')[0].replace('[Error 5] ', 'Access denied').replace('[Error 3] ', 'Not exists, press r to refresh')
-            if not ST3 and LIN:
-                error = error.decode('utf8')
         else:
             sort_nicely(items)
         finally:
@@ -510,13 +487,12 @@ class outlineBaseCommand:
         '''item is Unicode'''
         fname = re.escape(basename(os.path.abspath(item)) or item.rstrip(os.sep))
         if item[~0] == os.sep:
-            # ~ u'' or r''
-            pattern = u'^\s*[▸▾] '
+            pattern = r'^\s*[▸▾] '
             sep = re.escape(os.sep)
         else:
-            pattern = u'^\s*≡ '
+            pattern = r'^\s*≡ '
             sep = ''
-        return self.view.find_all(u'%s%s%s' % (pattern, fname, sep))
+        return self.view.find_all('%s%s%s' % (pattern, fname, sep))
 
     def _add_sels(self, sels=None):
         self.view.sel().clear()
