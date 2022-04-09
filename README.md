@@ -1,4 +1,65 @@
-## Outline for Sublime Text 3
+# Outline for Sublime Text 3 (fork)
+
+This a **fork of [SublimeOutline](https://github.com/warmdev/SublimeOutline)**: Outline view for Sublime Text 3.
+
+Current '[**dev**](https://github.com/Gregory-K/SublimeOutline)' branch is just a personal sandbox. Nothing special, just playing around with:  
+- a toggle argument for the 'outline' command
+  _(use the same keybinding, keyboard shortcut, to open/close the Outline side-pane)_,
+- and maybe, a python 3.8 only version
+  _(Sublime Text 4)_.
+
+
+## Try
+
+for whomsoever wants to try it
+
+### Install
+
+Remove "Outline" with "Package Control", if previously installed.
+
+[Manual installation](#Manual-installation) (official README bellow) applies also for the current repository.
+
+Add to `Packages\User\Package Control.sublime-settings`,
+
+```
+  "ignore_vcs_packages":
+  [
+    "Outline"
+  ]
+```
+
+### Use
+
+Toggle Outline key binding,  
+for example `alt + a` and outline pane on the left:  
+
+`\Packages\User\Default.sublime-keymap`
+
+```json
+{ "keys": ["alt+a"], "command": "outline", "args": {"toggle": true,"immediate": true,"other_group": "right","single_pane": true,"project": true,"layout": 1} }
+```
+
+Disable toggle nature of the shortcut by setting `"toggle"` to `false`.
+
+
+## Notes
+
+Not tested with [FileBrowser](https://github.com/aziz/SublimeFileBrowser) yet.
+
+Other Branches:  
+'[**master**](https://github.com/Gregory-K/SublimeOutline/tree/master)' : the official repo code base.  
+'[**toggle_pane**](https://github.com/Gregory-K/SublimeOutline/tree/toggle_pane)' : just the "toggle outline command feat." applied with no other alterations to 'master'.
+
+**All credits** goes to the original author [**warmdev**](https://github.com/warmdev).
+
+Bellow resides the official README file.
+
+
+
+---
+
+
+## Outline for Sublime Text 3 (official)
 
 ### Overview
 
