@@ -105,8 +105,8 @@ class OutlineEventHandler(EventListener):
     def on_activated(self, view):
         if '𝌆' in view.name():
             return
-        # Avoid error message when console opens, as console is also a view, albeit with a group index of -1
-        if view.window().get_view_index(view)[0] == -1:
+        # Avoid error message when console opens (ST4 returns None)
+        if not hasattr(view.window(), 'get_view_index'):
             return
 
         if not get_sidebar_status(view):
