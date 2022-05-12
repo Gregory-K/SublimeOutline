@@ -1,5 +1,4 @@
 import sublime
-from sublime import Region
 from sublime_plugin import WindowCommand, TextCommand, EventListener
 from .show import show, refresh_sym_view, get_sidebar_views_groups, get_sidebar_status, binary_search
 
@@ -36,7 +35,7 @@ class OutlineCloseSidebarCommand(WindowCommand):
 
 class OutlineRefreshCommand(TextCommand):
     def run(self, edit, symlist=None, symkeys=None, path=None, to_expand=None, toggle=None):
-        self.view.erase(edit, Region(0, self.view.size()))
+        self.view.erase(edit, sublime.Region(0, self.view.size()))
         if symlist and self.view.settings().get('outline_alphabetical'):
             symlist, symkeys = (list(t) for t in zip(*sorted(zip(symlist, symkeys))))
         self.view.insert(edit, 0, "\n".join(symlist))
@@ -96,7 +95,7 @@ class OutlineEventHandler(EventListener):
             if not symkeys:
                 return
             region_position = symkeys[row]
-            r = Region(region_position[0], region_position[1])
+            r = sublime.Region(region_position[0], region_position[1])
             active_view.show_at_center(r)
             active_view.sel().clear()
             active_view.sel().add(r)
