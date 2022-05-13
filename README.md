@@ -1,12 +1,11 @@
-# Outline for Sublime Text 3 (fork)
+# Outline for Sublime Text 3
 
-This a **fork of [SublimeOutline](https://github.com/warmdev/SublimeOutline)**: Outline view for Sublime Text 3.
+This a **fork of [SublimeOutline](https://github.com/warmdev/SublimeOutline)**: Outline view for [Sublime Text](https://www.sublimetext.com/) editor.
 
-Current '[**dev**](https://github.com/Gregory-K/SublimeOutline)' branch is just a personal sandbox. Nothing special, just playing around with:  
-- a toggle argument for the 'outline' command
-  _(use the same keybinding, keyboard shortcut, to open/close the Outline side-pane)_,
-- and maybe, a python 3.8 only version
-  _(Sublime Text 4)_.
+Current '[**dev-ST3**](https://github.com/Gregory-K/SublimeOutline/tree/dev-ST3)' branch supports Sublime Text 3.
+
+It provides a toggle argument for the 'outline' command.  
+_(use the same key binding, keyboard shortcut, to open/close the Outline side-pane)_
 
 
 ## Try
@@ -15,11 +14,9 @@ for whomsoever wants to try it
 
 ### Install
 
-Remove "Outline" with "Package Control", if previously installed.
+Remove "Outline" from "Package Control", if previously installed.
 
-[Manual installation](#Manual-installation) (official README bellow) applies also for the current repository.
-
-Add to `Packages\User\Package Control.sublime-settings`,
+Add to `Packages/User/Package Control.sublime-settings`,
 
 ```
   "ignore_vcs_packages":
@@ -28,28 +25,55 @@ Add to `Packages\User\Package Control.sublime-settings`,
   ]
 ```
 
+#### Manual installation
+
+1. Clone or download this repository branch.
+2. Rename the cloned or extracted root folder to `Outline`.
+3. Move the `Outline` folder to your Sublime Text's `Packages` folder. To find the `Packages` folder, click menu `Preferences` > `Browse Packages`.
+4. Restart Sublime Text, and press `Ctrl + Shift + P` to select your preferred layout (`Browse Mode`)
+
+_alt. way_  
+1. Go to `Packages` folder (if you don't know, click menu `Preferences` > `Browse Packages`).
+2. Create a directory named 'Outline' and 'cd' inside it.
+3. From command line  
+  `git clone --depth 1 --branch dev-ST3 https://github.com/Gregory-K/SublimeOutline .`
+
+#### Update
+
+Delete the contents of `Packages/Outline` folder and repeat installation,  
+
+or
+
+'cd' in `Packages/Outline` and  
+`git fetch && git rebase` for Linux  
+`git fetch; git rebase` for Windows
+
 ### Use
 
-Toggle Outline key binding,  
+Toggle the Outline side-pane with a key binding,  
 for example `alt + a` and outline pane on the left:  
 
-`\Packages\User\Default.sublime-keymap`
+`Packages/User/Default.sublime-keymap`
 
 ```json
 { "keys": ["alt+a"], "command": "outline", "args": {"toggle": true,"immediate": true,"other_group": "right","single_pane": true,"project": true,"layout": 1} }
 ```
 
-Disable the "toggle" functionality of this shortcut by setting `"toggle"` to `false`.
+In case you want to disable the "toggle" functionality, set `"toggle"` to `false`.
 
 
 ## Notes
 
-~~Not~~ Somewhat tested with [FileBrowser](https://github.com/aziz/SublimeFileBrowser) ~~yet~~.  
-Seems to work. An `AttributeError` error when opening 'Outline' & 'FileBrowser' was fixed (?).
+_Note: As mentioned above, this is a "playground". Expect rebases, resets, branch renaming._
+
+Branches:  
+'[**dev**](https://github.com/Gregory-K/SublimeOutline)' : default branch for ST4 (WIP).  
+'[**dev-ST3**](https://github.com/Gregory-K/SublimeOutline/tree/dev-ST3)' : branch for ST3.  
+'[**dev-ST2**](https://github.com/Gregory-K/SublimeOutline/tree/dev-ST2)' : branch for ST2/ST3.
 
 Other Branches:  
-'[**master**](https://github.com/Gregory-K/SublimeOutline/tree/master)' : the official repo code base.  
-'[**toggle_pane**](https://github.com/Gregory-K/SublimeOutline/tree/toggle_pane)' : just the "toggle outline command feat." applied with no other alterations to 'master'.
+'[**upstream**](https://github.com/Gregory-K/SublimeOutline/tree/upstream)' : clone of the official upstream repository.  
+'[**toggle_pane**](https://github.com/Gregory-K/SublimeOutline/tree/toggle_pane)' : just the "toggle outline command feat." applied with no other alterations to 'upstream'.
 
 **All credits** goes to the original author [**warmdev**](https://github.com/warmdev).
 
